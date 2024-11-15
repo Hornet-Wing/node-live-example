@@ -67,7 +67,16 @@ wss.on("connection", (ws) => {
   console.log("socket: client connected");
   let deepgram = setupDeepgram(ws);
 
+  let bounce = true;
+
+  setTimeout(() => bounce = false, 10000);
+
   ws.on("message", (message) => {
+    if (bounce) {
+      console.log('bounce this message');
+      return;
+    }
+
     console.log("socket: client data received");
 
     if (deepgram.getReadyState() === 1 /* OPEN */) {
